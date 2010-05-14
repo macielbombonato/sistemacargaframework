@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<project name="Framework Sistema Carga" default="help" basedir=".">
+	<!--
+		Authors: Daniel Quirino Oliveira - danielqo@gmail.com
+				 Maciel Escudero Bombonato - maciel.bombonato@gmail.com
+				 
+				 
+		Version       Date              History Log
+		  1.0      12/06/2007           Build script created.
+		  1.1      07/10/2007           Include pkgName and iconsPath variables
+	  -->
+	<property name="name" value="SistemaCargaFramework" />
+	<property name="current.version" value="1.0.1-beta" />
+ 	<property name="src" value="src" />
+	<property name="target" value="dist" />
+	<property name="docs" value="${target}/docs" />
+	<property name="bin" value="bin" />
+	<property name="deps" value="lib" />
+	<property name="pkgName" value="org.mtec.sistemacarga.framework" />
+	<property name="iconsPath" value="/org/mtec/sistemacarga/framework/gui/builder/icons" />
+	<property name="manifest.file" value="META-INF/MANIFEST.MF" />
+	<property name="resources" value="resources" />
+	<property name="icon.repository" value="${resources}/img" />
+	<!-- <property name="test.src" value="test/src" />
+	<property name="test.bin" value="test/bin" />
+	<property name="test.report" value="docs/reports/test" />
+	<property name="test.report.html" value="docs/reports/test/html" /> -->
+	<path id="build.classpath">
+		<fileset dir="${deps}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="help">
+		<echo level="warning" message="This build process depends on a valid JDK 5.0 or higher. Check if your PATH environment variable points to your JDK directory." />
+		<echo level="info" message="Available tasks:" />
+		<echo level="info" message="clean: remove the temporary folder structure created to support the build process." />
+		<echo level="info" message="setup: create a temporary folder structure to support the build process." />
+		<echo level="info" message="compile: compile all .java files placed in the source folder. JDK is required." />
+		<echo level="info" message="jar: package the application as a .jar file. JDK is required." />
+		<echo level="info" message="javadoc: Generate javadoc for all classes in the org.mtec.sistemacarga.framework.* package. JDK is required." />
+		<echo level="info" message="build: compile the project and generate javadoc. JDK is required." />
+		<echo level="info" message="dist: build the project, pack the application as a .jar file and create the complete structure to turn the project able to be distributed. JDK is required." />
+		<echo level="info" message="jdk-present: check if JDK is available in your machine." />
+	</target>
+
+	<target name="clean" description="Clean the output directory">
+		<delete dir="${bin}" />
+		<delete dir="${target}" />
+	</target>
+
+	<target name="setup">
+		<mkdir dir="${bin}" />
+		<mkdir dir="${target}" />
+		<mkdir dir="${target}/lib" />
+	</target>
+
+	<target name="compile" depends="clean, setup">
+		<javac destdir="${bin}" debug="on" deprecation="on">
+			<src>
+				<pathelement location="${src}" />
+			</src>
+			<classpath refid="build.classpath" />
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<copydir dest="${bin}${iconsPath}" src="${icon.repository}" />
+		<jar jarfile="${target}/lib/${name}.jar" basedir="${bin}" manifest="${manifest.file}" />
+	</target>
+
+	<target name="javadoc" description="Generate javadoc for all classes in the ${pkgName}.* package">
+		<javadoc sourcepath="${src}" destdir="${docs}" packagenames="${pkgName}.*" />
+	</target>
+
+	<target name="build" depends="compile" />
+
+	<target name="dist" depends="build, jar">
+		<mkdir dir="${target}/bin" />
+		<mkdir dir="${target}/bin/resources" />
+		<copy todir="${target}/bin">
+			<fileset dir="${resources}">
+				<include name="**/*.bat" />
+				<exclude name="img/**.*" />
+			</fileset>
+		</copy>
+		<copy todir="${target}/bin/resources">
+			<fileset dir="${resources}">
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+				<exclude name="img/**.*" />
+			</fileset>
+		</copy>
+		<copy todir="${target}/lib">
+			<fileset dir="${deps}"/>	
+		</copy>
+	</target>
+
+	<target name="test-jdk-present">
+		<available classname="com.sun.tools.javac.v8.JavaCompiler" property="jdk.present" />
+	</target>
+
+	<target name="jdk-present" depends="test-jdk-present" unless="jdk.present">
+		<echo>================================= WARNING ================================</echo>
+		<echo> JDK isn&apos;t present. Compilation cannot be performed. </echo>
+		<echo>==========================================================================</echo>
+	</target>
+
+</project>

@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: ./classes12.jar ./looks-2.1.4.jar ./commons-collections-2.1.1.jar ./commons-dbcp-1.2.1.jar ./commons-pool-1.3.jar ./fscontext.jar ./jtds-1.2.jar ./log4j-all-1.3alpha-8.jar ./providerutil.jar ./binding-1.3.1.jar ./forms-1.0.7.jar
+Main-Class: org.mtec.sistemacarga.framework.Main
+
