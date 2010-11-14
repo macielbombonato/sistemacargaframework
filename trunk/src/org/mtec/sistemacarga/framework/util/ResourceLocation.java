@@ -49,9 +49,9 @@ public class ResourceLocation {
 	public static final String IMG_CIRCLE_LOAD = "/org/mtec/sistemacarga/framework/gui/builder/icons/circleload.gif";
 	
 	/**
-	 * Define o inicio do pacote de um componente de carga
+	 * Define a chave que deve ser lida no arquivo de propriedades para obter o pacote que deve ser lido pelo framework.
 	 */
-	public static final String PKG_NAME = "com/eds";
+	public static final String PKG_CONF_KEY = "resources.filter.full_package_name";
 	
 	/**
 	 * Define o nome do arquivo de configurações da aplicação
@@ -211,4 +211,9 @@ public class ResourceLocation {
 	 * Define a localidade do arquivo TNS_NAMES
 	 */
 	public static String DATABASE_TNSNAMES_DATABASE_PATH = new String(ResourceUtil.getInstance().getProperty(ResourceLocation.CONF_PROPERTIES, KEY_TNSNAMES_DATABASE_PATH));
+	
+	/**
+	 * Define o inicio do pacote de um componente de carga
+	 */
+	public static final String PKG_NAME = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, PKG_CONF_KEY));	
 }
