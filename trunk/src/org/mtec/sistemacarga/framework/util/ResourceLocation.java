@@ -4,19 +4,20 @@ package org.mtec.sistemacarga.framework.util;
  * Classe utilizada para padronizar as localidades de arquivos de configuração e constantes de texto
  * @author Maciel Escudero Bombonato - maciel.bombonato@gmail.com
  * @version 1.0 - 25/04/2007
- * @version 1.1 - 01/10/2007 - Inclusão de novas chaves para padronização da aplicação.
+ * @version 1.1 - 01/10/2007 - Inclusao de novas chaves para padronizacao da aplicacao.
+ * @version 1.2 - 13/11/2010 - Inclusao de nova chave para definicao de pacote de filtro dinamico.
  */
 public class ResourceLocation {
 	
 	/**
 	 * Nome da aplicação que será exibido na barra de título.
 	 */
-	public static final String TITLE_APPLICATION_NAME = "Sistema de Carga [v: 1.40]";
+	public static final String TITLE_APPLICATION_NAME = "Sistema de Carga [v: 1.41]";
 	
 	/**
 	 * Título da tela de configuração de conexão.
 	 */
-	public static final String TITLE_CONFIGURAR_CONEXAO = "Configuração de Conexão";
+	public static final String TITLE_CONFIGURAR_CONEXAO = "Configuracao de Conexao";
 	
 	/**
 	 * Título da janela de reprocessamento
