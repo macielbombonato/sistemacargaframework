@@ -159,6 +159,8 @@ public class HibernateLoadProcess {
 			}
 			//
 		} catch (HibernateException e) {
+			Log.error("Erro ao inicializar mecanismo Hibernate de comunicacao com o banco de dados.");
+			Log.error(e);
 		}
 	}
 	
