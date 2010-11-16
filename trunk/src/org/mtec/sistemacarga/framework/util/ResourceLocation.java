@@ -216,5 +216,15 @@ public class ResourceLocation {
 	/**
 	 * Define o inicio do pacote de um componente de carga
 	 */
-	public static final String PKG_NAME = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, PKG_CONF_KEY));	
+	public static final String PKG_NAME = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, PKG_CONF_KEY));
+	
+	/**
+	 * Define a chave do ponto de commit que a aplicacao deve seguir.
+	 */
+	public static String CONF_DATABASE_COMMIT_POINT = "resources.database.commit_point";
+	
+	/**
+	 * Define o valor do ponto de commit da aplicacao.
+	 */
+	public static String DATABASE_COMMIT_POINT = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, CONF_DATABASE_COMMIT_POINT));
 }
