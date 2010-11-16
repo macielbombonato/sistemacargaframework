@@ -61,6 +61,12 @@ public class HibernateLoadProcess {
 	private int commitCount = 0;
 	
 	/**
+	 * Valor definido no arquivo de configuracao para o ponto de commit que a aplicacao deve
+	 * seguir.
+	 */
+	private int commitPoint = Integer.parseInt(ResourceLocation.DATABASE_COMMIT_POINT);
+	
+	/**
 	 * Construtor da classe.
 	 * Executa método que inicializa os componentes de configuração de anotações.
 	 */
@@ -252,12 +258,12 @@ public class HibernateLoadProcess {
 			// Incrementa contador
 			commitCount++;
 			// Commita transação;
-			if (commitCount >= 1000) {
-				//
+			if (commitCount >= commitPoint) {
 				destinySession.flush();
-				//
-				// Zera contador
 				commitCount = 0;
+				System.gc();
+				sessionsClose();
+				sessionsInitialize();
 			}
 			//
 		} catch (HibernateException e) {
