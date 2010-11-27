@@ -106,6 +106,7 @@ class LoginComponentesPanel extends JPanel {
 	 * o alias/caminho do banco descritos no arquivo 
 	 * TNSNAMES.ORA
 	 */
+	@SuppressWarnings("unchecked")
 	private Map mapAliasBanco;
 
 	/**
@@ -196,6 +197,7 @@ class LoginComponentesPanel extends JPanel {
 	 * com os alias recuperados através da leitura do arquivo
 	 * TNSNAMES.ORA
 	 */
+	@SuppressWarnings("unchecked")
 	private void populaListaBancos() {
 		/*
 		 * Primeiro vai tentar recuperar o map lendo o arquivo de propriedades
@@ -203,9 +205,9 @@ class LoginComponentesPanel extends JPanel {
 		try {
 			//
 			if (direction) {
-				ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_DRIVER_ORIGEM, ResourceLocation.STRING_DRIVER_ORACLE);
+				ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_DRIVER_ORIGEM, ResourceLocation.STRING_DRIVER_ORACLE);
 			} else {
-				ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_DRIVER_DESTINO, ResourceLocation.STRING_DRIVER_ORACLE);
+				ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_DRIVER_DESTINO, ResourceLocation.STRING_DRIVER_ORACLE);
 			}
 			//
 			String tnsNamesPath = ResourceLocation.DATABASE_TNSNAMES_DATABASE_PATH; 
@@ -244,7 +246,7 @@ class LoginComponentesPanel extends JPanel {
 					getTxtPath().setText(chooser.getSelectedFile().getAbsolutePath());
 					ResourceLocation.DATABASE_TNSNAMES_DATABASE_PATH = chooser.getSelectedFile().getAbsolutePath();
 					mapAliasBanco = OraUtil.getInstance().getAliasMap( chooser.getSelectedFile().getAbsolutePath() );
-					ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_TNSNAMES_DATABASE_PATH, chooser.getSelectedFile().getAbsolutePath());
+					ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_TNSNAMES_DATABASE_PATH, chooser.getSelectedFile().getAbsolutePath());
 				} catch (SisCarException e) {
 					Log.error("Ocorreu um erro novamente ao tentar ler o map de alias do modo alternativo! " +
 							  "O sistema tentará obter o caminho do arquivo com o usuário novamente...");
@@ -397,59 +399,59 @@ class LoginComponentesPanel extends JPanel {
 				if (!tfUsuario.getText().equalsIgnoreCase("")) {
 					if (userProperties != null && !userProperties.equals(tfUsuario.getText()) ) {
 						ResourceLocation.DATABASE_USER_ORIGEM = tfUsuario.getText().trim();
-						ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_USER_ORIGEM, tfUsuario.getText().trim());
+						ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_USER_ORIGEM, tfUsuario.getText().trim());
 					} else {
 						ResourceLocation.DATABASE_USER_ORIGEM = tfUsuario.getText().trim();
-						ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_USER_ORIGEM, tfUsuario.getText().trim());
+						ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_USER_ORIGEM, tfUsuario.getText().trim());
 					}
 				} else {
 					ResourceLocation.DATABASE_USER_ORIGEM = "";
-					ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_USER_ORIGEM, "_");
+					ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_USER_ORIGEM, "_");
 				}
 				if (!senha.equalsIgnoreCase("")) {
 					if (passProperties != null && !passProperties.equals(senha) ) {
 						ResourceLocation.DATABASE_PASS_ORIGEM = senha;
-						ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_PASS_ORIGEM, senha);
+						ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_PASS_ORIGEM, senha);
 					} else {
 						ResourceLocation.DATABASE_PASS_ORIGEM = senha;
-						ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_PASS_ORIGEM, senha);
+						ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_PASS_ORIGEM, senha);
 					}
 				} else {
 					ResourceLocation.DATABASE_PASS_ORIGEM = "";
-					ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_PASS_ORIGEM, "_");
+					ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_PASS_ORIGEM, "_");
 				}
 				if (urlProperties == null || !urlProperties.equals(valueAlias) ) {
 					ResourceLocation.DATABASE_URL_ORIGEM = valueAlias;
-					ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_URL_ORIGEM, valueAlias);
+					ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_URL_ORIGEM, valueAlias);
 				}
 			} else {
 				if (!tfUsuario.getText().equalsIgnoreCase("")) {
 					if (userProperties != null && !userProperties.equals(tfUsuario.getText()) ) {
 						ResourceLocation.DATABASE_USER_DESTINO = tfUsuario.getText().trim();
-						ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_USER_DESTINO, tfUsuario.getText().trim());
+						ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_USER_DESTINO, tfUsuario.getText().trim());
 					} else {
 						ResourceLocation.DATABASE_USER_DESTINO = tfUsuario.getText().trim();
-						ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_USER_DESTINO, tfUsuario.getText().trim());
+						ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_USER_DESTINO, tfUsuario.getText().trim());
 					}
 				} else {
 					ResourceLocation.DATABASE_USER_DESTINO = "";
-					ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_USER_DESTINO, "_");
+					ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_USER_DESTINO, "_");
 				}
 				if (!senha.equalsIgnoreCase("")) {
 					if (passProperties != null && !passProperties.equals(senha) ) {
 						ResourceLocation.DATABASE_PASS_DESTINO = senha;
-						ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_PASS_DESTINO, senha);
+						ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_PASS_DESTINO, senha);
 					} else {
 						ResourceLocation.DATABASE_PASS_DESTINO = senha;
-						ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_PASS_DESTINO, senha);
+						ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_PASS_DESTINO, senha);
 					}
 				} else {
 					ResourceLocation.DATABASE_PASS_DESTINO = "";
-					ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_PASS_DESTINO, "_");
+					ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_PASS_DESTINO, "_");
 				}
 				if (urlProperties == null || !urlProperties.equals(valueAlias) ) {
 					ResourceLocation.DATABASE_URL_DESTINO = valueAlias;
-					ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_URL_DESTINO, valueAlias);
+					ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_URL_DESTINO, valueAlias);
 				}
 			}
 			
@@ -536,7 +538,7 @@ class LoginComponentesPanel extends JPanel {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					getTxtPath().setText(ResourceLocation.DATABASE_TNSNAMES_DATABASE_PATH);
 					if (checkOracle.isSelected()) {
-						ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_DRIVER_ORIGEM, ResourceLocation.STRING_DRIVER_ORACLE);
+						ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_DRIVER_ORIGEM, ResourceLocation.STRING_DRIVER_ORACLE);
 						checkAccess.setSelected(false);
 						if (model.getSize() > 0) {
 							model.removeAllElements();
@@ -580,8 +582,8 @@ class LoginComponentesPanel extends JPanel {
 							if(opcao == JFileChooser.APPROVE_OPTION) {
 								getTxtPath().setText(chooser.getSelectedFile().getAbsolutePath());
 								ResourceLocation.DATABASE_TNSNAMES_DATABASE_PATH = chooser.getSelectedFile().getAbsolutePath();
-								ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_DRIVER_ORIGEM, ResourceLocation.STRING_DRIVER_MSACCESS);
-								ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_TNSNAMES_DATABASE_PATH, chooser.getSelectedFile().getAbsolutePath());
+								ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_DRIVER_ORIGEM, ResourceLocation.STRING_DRIVER_MSACCESS);
+								ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_TNSNAMES_DATABASE_PATH, chooser.getSelectedFile().getAbsolutePath());
 								valueAlias = ResourceLocation.STRING_URL_MSACCESS + ResourceLocation.DATABASE_TNSNAMES_DATABASE_PATH;
 							} else {
 								return;
@@ -597,8 +599,8 @@ class LoginComponentesPanel extends JPanel {
 							if(opcao == JFileChooser.APPROVE_OPTION) {
 								getTxtPath().setText(chooser.getSelectedFile().getAbsolutePath());
 								ResourceLocation.DATABASE_TNSNAMES_DATABASE_PATH = chooser.getSelectedFile().getAbsolutePath();
-								ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_DRIVER_DESTINO, ResourceLocation.STRING_DRIVER_MSACCESS);
-								ResourceUtil.getInstance().setProperty(ResourceLocation.CONF_PROPERTIES, ResourceLocation.KEY_TNSNAMES_DATABASE_PATH, chooser.getSelectedFile().getAbsolutePath());
+								ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_DRIVER_DESTINO, ResourceLocation.STRING_DRIVER_MSACCESS);
+								ResourceUtil.getInstance().setProperty(ResourceLocation.KEY_TNSNAMES_DATABASE_PATH, chooser.getSelectedFile().getAbsolutePath());
 								valueAlias = ResourceLocation.STRING_URL_MSACCESS + ResourceLocation.DATABASE_TNSNAMES_DATABASE_PATH;
 							} else {
 								return;
