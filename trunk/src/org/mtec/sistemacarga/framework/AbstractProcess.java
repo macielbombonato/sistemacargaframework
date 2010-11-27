@@ -12,6 +12,7 @@ import org.mtec.sistemacarga.framework.util.Log;
  * @author Maciel Escudero Bombonato - maciel.bombonato@gmail.com
  * @version 1.0 - 05/02/2007
  */
+@SuppressWarnings("unchecked")
 abstract class AbstractProcess implements Runnable {
 	
 	/**

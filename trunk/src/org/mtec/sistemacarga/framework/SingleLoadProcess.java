@@ -9,6 +9,7 @@ import java.util.List;
  * @author Maciel Escudero Bombonato - maciel.bombonato@gmail.com
  * @version 1.0 - 11/05/2007
  */
+@SuppressWarnings("unchecked")
 class SingleLoadProcess implements LoadProcess {
 	
 	/**

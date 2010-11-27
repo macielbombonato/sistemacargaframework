@@ -16,17 +16,18 @@ import org.mtec.sistemacarga.framework.util.Log;
  * @version 1.0 - 25/04/2007
  * @version 1.1 - 29/10/2007 - Realizados ajustes no monitoramento de threads (inclusão de bloco sincronizado).
  */
+@SuppressWarnings("unchecked")
 final class ConcurrencyManager {
 	
 	/**
 	 * Pool de threads da aplicação
 	 */
-	public static Thread[] t = new Thread[15];
+	public static Thread[] t = new Thread[10];
 	/**
 	 * Pool de threads de monitoramento, normalmente utilizadas em situações onde
 	 * existam objetos com depêndias, objetos filhos.
 	 */
-	public static Thread[] monitor = new Thread[15];
+	public static Thread[] monitor = new Thread[10];
 	/**
 	 * String que define o nome do objeto pai que deve ser executado antes que o
 	 * processo atual seja iniciado.

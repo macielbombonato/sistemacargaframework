@@ -16,6 +16,7 @@ import org.mtec.sistemacarga.framework.exception.SisCarException;
  * @author Maciel Escudero Bombonato - maciel.bombonato@gmail.com
  * @version 1.0 - 25/04/2007
  */
+@SuppressWarnings("unchecked")
 final class DBCommandExecutor extends AbstractProcess {
 	
 	/**
