@@ -3,6 +3,7 @@ package org.mtec.sistemacarga.framework.util;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 /**
  * Classe utilitária que retorna padrões de formatação e parce para campos de data
@@ -111,6 +112,7 @@ public class DateFormat {
 	 */
 	public String getDataHoraAtual() {
 		sdf.applyPattern("dd/MM/yyyy - HH:mm:ss");
+		sdf.setTimeZone(TimeZone.getDefault());
 		String dataHora = sdf.format( new java.util.Date() );
 		sdf.applyPattern("dd/MM/yyyy");
 		return dataHora;
