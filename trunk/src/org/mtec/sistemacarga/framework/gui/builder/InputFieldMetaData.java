@@ -8,6 +8,7 @@ package org.mtec.sistemacarga.framework.gui.builder;
  * @author Maciel Escudero Bombonato - maciel.bombonato@gmail.com
  * @version 1.0 - 25/04/2007
  */
+@SuppressWarnings("unchecked")
 public class InputFieldMetaData {
 
 	/**
@@ -35,6 +36,11 @@ public class InputFieldMetaData {
 	 * Tipo do objeto definido no componente de carga
 	 */
 	private Class elementType;
+	
+	/**
+	 * Valor default do objeto definido no componente de carga
+	 */
+	private String elementValue;
 	
 	/**
 	 * Recupera o tipo do objeto definido no componente de carga
@@ -137,6 +143,14 @@ public class InputFieldMetaData {
 		String type      = "UIElementType: "+this.type;
 		String tip       = "ToolTipText: " + this.tip;
 		return "\n"+ fieldName +"\n"+ labelName+"\n"+ type+"\n"+ tip+"\n";
+	}
+
+	public String getElementValue() {
+		return elementValue;
+	}
+
+	public void setElementValue(String elementValue) {
+		this.elementValue = elementValue;
 	}
 	
 }
