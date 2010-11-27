@@ -93,7 +93,7 @@ public class HibernateLoadProcess {
 		sourceConfig.setProperty("hibernate.proxool.pool_alias", "pool1");
 		sourceConfig.setProperty("hibernate.order_updates", "true");
 		sourceConfig.setProperty("hibernate.max_fetch_depth", "1");
-		sourceConfig.setProperty("hibernate.default_batch_fetch_size", "100");
+		sourceConfig.setProperty("hibernate.default_batch_fetch_size", commitPoint+"");
 		sourceConfig.setProperty("hibernate.jdbc.batch_versioned_data", "true");
 		sourceConfig.setProperty("hibernate.jdbc.use_streams_for_binary", "true");
 		sourceConfig.setProperty("hibernate.cache.region_prefix", "hibernate.test");
@@ -114,7 +114,7 @@ public class HibernateLoadProcess {
 		destinyConfig.setProperty("hibernate.proxool.pool_alias", "pool1");
 		destinyConfig.setProperty("hibernate.order_updates", "true");
 		destinyConfig.setProperty("hibernate.max_fetch_depth", "1");
-		destinyConfig.setProperty("hibernate.default_batch_fetch_size", "100");
+		destinyConfig.setProperty("hibernate.default_batch_fetch_size", commitPoint+"");
 		destinyConfig.setProperty("hibernate.jdbc.batch_versioned_data", "true");
 		destinyConfig.setProperty("hibernate.jdbc.use_streams_for_binary", "true");
 		destinyConfig.setProperty("hibernate.cache.region_prefix", "hibernate.test");
@@ -128,6 +128,7 @@ public class HibernateLoadProcess {
 	 * Adiciona Classes anotadas nos objetos annotationConfiguration
 	 * @param obj
 	 */
+	@SuppressWarnings("unchecked")
 	public void addAnnotatedClass(Class clazz) {
 		try {
 			Map imports = sourceConfig.getImports();
@@ -262,8 +263,6 @@ public class HibernateLoadProcess {
 				destinySession.flush();
 				commitCount = 0;
 				System.gc();
-				sessionsClose();
-				sessionsInitialize();
 			}
 			//
 		} catch (HibernateException e) {
