@@ -24,7 +24,6 @@ import org.mtec.sistemacarga.framework.sorts.KeysComparator;
 import org.mtec.sistemacarga.framework.util.Log;
 import org.mtec.sistemacarga.framework.util.ResourceLocation;
 
-
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
@@ -57,8 +56,20 @@ public class PanelBuilder {
 			applyLookAndFeel();
 			List<Class> classes = filterClasses(loadAllClasses());
 			AnnotationProcessor processor = new AnnotationProcessor();
+			Object obj = null;
 			for (Class c : classes) {
-				PanelMetaData metadata = processor.processAnnotations(c);
+				PanelMetaData metadata = null;
+				try {
+					obj = c.newInstance();
+					metadata = processor.processAnnotations(obj);
+					obj = null;
+				} catch (InstantiationException e) {
+					Log.error("Erro durante a conversao e criacao da classe anotada.");
+					Log.error(e);
+				} catch (IllegalAccessException e) {
+					Log.error("Erro durante a conversao e criacao da classe anotada.");
+					Log.error(e);
+				}
 				Tuple<JPanel, JPanel> tuple = buildPanel(metadata);				
 				PanelPrototype prototype = new PanelPrototype(tuple.getFirstObject(), tuple.getSecondObject(), c);
 				panelTable.put(metadata.getName(), prototype);
@@ -183,7 +194,7 @@ public class PanelBuilder {
 		for (int i = 0; i < components.length; i++) {
 			InputFieldMetaData obj = components[i];
 			panel.add(new JLabel(obj.getLabelName()), cc.xy(1, i + 1));
-			panel.add(createTextField(obj.getFieldName(), obj.getTip(), obj.getElementType()), cc.xy(3, i + 1));
+			panel.add(createTextField(obj), cc.xy(3, i + 1));
 		}
 		return panel;
 	}
@@ -205,11 +216,16 @@ public class PanelBuilder {
 		return bar;
 	}
 
-	static private JFormattedTextField createTextField(String fieldName, String tip, Class elementType) {
-		JFormattedTextField f = new JFormattedTextField(elementType);
-		f.setName(fieldName);
-		f.setToolTipText(tip);
-		f.setText(null);
+	static private JFormattedTextField createTextField(InputFieldMetaData obj) {
+		JFormattedTextField f = new JFormattedTextField(obj.getElementType());
+		f.setName(obj.getFieldName());
+		f.setToolTipText(obj.getTip());
+		if (obj.getElementValue() != null && !obj.getElementValue().equalsIgnoreCase("null")) {
+			f.setText(obj.getElementValue());	
+		} else {
+			f.setText(null);
+		}
+		
 		
 		return f;
 	}
