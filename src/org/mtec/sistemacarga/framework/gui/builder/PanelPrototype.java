@@ -75,12 +75,15 @@ class PanelPrototype<T> extends JPanel {
 	
 	private T loadProcess;  //  @jve:decl-index=0:
 	
+	@SuppressWarnings("unchecked")
 	private List parameters;  //  @jve:decl-index=0:
 	
+	@SuppressWarnings("unchecked")
 	protected List getParameters() {
 		return parameters;
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected void setParameters(List parameters) {
 		this.parameters = parameters;
 	}
@@ -89,7 +92,7 @@ class PanelPrototype<T> extends JPanel {
 	public PanelPrototype(JPanel form, JPanel reportPane, Class process) {
 		super();
 		try {
-			this.loadProcess = (T)Class.forName(process.getName()).newInstance();;
+			this.loadProcess = (T)Class.forName(process.getName()).newInstance();
 		} catch (Exception e) {
 			Log.error("Erro ao tentar criar uma nova instancia do objeto para o componente: " + process.getName());
 			Log.error(e);
