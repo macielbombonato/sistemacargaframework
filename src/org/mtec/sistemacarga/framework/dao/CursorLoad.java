@@ -21,6 +21,7 @@ import com.sun.rowset.CachedRowSetImpl;
  * @version 1.0 - 03/01/2007
  * @version 1.1 - 18/10/2007
  */
+@SuppressWarnings("unchecked")
 public class CursorLoad {
 	
 	/**
