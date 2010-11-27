@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +23,7 @@ import org.mtec.sistemacarga.framework.util.Log;
  * @version 1.0 - 04/05/2007
  * @version 1.1 - 23/10/2007 - Inclusão dos tipos Double e Float na montagem de parâmetros.
  */
+@SuppressWarnings("unchecked")
 public class ExecuteDMLCommand {
 	
 	/**
@@ -32,6 +34,7 @@ public class ExecuteDMLCommand {
 	/**
 	 * Lista de Parâmetros para execução da storedProcedure
 	 */
+	
 	private List params;
 	
 	/**
@@ -112,6 +115,8 @@ public class ExecuteDMLCommand {
 						pst.setString(i+1, (String)lista.get(i));
 					} else if (lista.get(i) instanceof Integer) {
 						pst.setInt(i+1, ((Integer)lista.get(i)).intValue());
+					} else if (lista.get(i) instanceof Timestamp) {
+						pst.setTimestamp(i+1, (java.sql.Timestamp)lista.get(i));
 					} else if (lista.get(i) instanceof Date) {
 						pst.setDate(i+1, (java.sql.Date)lista.get(i));
 					} else if (lista.get(i) instanceof Long) {
