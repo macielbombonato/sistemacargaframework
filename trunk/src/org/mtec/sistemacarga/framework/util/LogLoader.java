@@ -98,9 +98,9 @@ public class LogLoader {
 		if(parametros == null) {
 			Log.info("CARREGANDO O ARQUIVO DE PROPRIEDADE");
 			parametros = new Properties();
-			parametros.setProperty("log.refreshTime", ResourceUtil.getInstance().getProperty(ResourceLocation.CONF_PROPERTIES, "log.refreshTime"));
-			parametros.setProperty("log.fileAppender.path", ResourceUtil.getInstance().getProperty(ResourceLocation.CONF_PROPERTIES, "log.fileAppender.path"));
-			parametros.setProperty("log.xmlAppender.path", ResourceUtil.getInstance().getProperty(ResourceLocation.CONF_PROPERTIES, "log.xmlAppender.path"));
+			parametros.setProperty("log.refreshTime", ResourceUtil.getInstance().getProperty("log.refreshTime"));
+			parametros.setProperty("log.fileAppender.path", ResourceUtil.getInstance().getProperty("log.fileAppender.path"));
+			parametros.setProperty("log.xmlAppender.path", ResourceUtil.getInstance().getProperty("log.xmlAppender.path"));
 			
 		}
 	}
