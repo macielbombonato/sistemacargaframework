@@ -25,6 +25,7 @@ import java.util.Comparator;
  * @version 1.0 - 14/02/2007
  *
  */
+@SuppressWarnings("unchecked")
 public class KeysComparator implements Comparator {
 
 	/**
