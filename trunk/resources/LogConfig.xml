@@ -7,7 +7,7 @@
 	    </layout>
 	</appender>
 	<appender name="fileAppender" class="org.apache.log4j.FileAppender">
-	    <param name="File" value="LogCarga/SistemaCarga.log"/>
+	    <param name="File" value="../LogCarga/SistemaCarga.log"/>
 	    <layout class="org.apache.log4j.PatternLayout">
 		    <param name="ConversionPattern" value="%d{yy-MM-dd HH:mm:ss} %-5p - %m%n"/>
 	    </layout>
