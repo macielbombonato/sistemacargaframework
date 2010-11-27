@@ -1,5 +1,6 @@
 package org.mtec.sistemacarga.framework.util;
 
+
 /**
  * Classe utilizada para padronizar as localidades de arquivos de configuração e constantes de texto
  * @author Maciel Escudero Bombonato - maciel.bombonato@gmail.com
@@ -12,7 +13,7 @@ public class ResourceLocation {
 	/**
 	 * Nome da aplicação que será exibido na barra de título.
 	 */
-	public static final String TITLE_APPLICATION_NAME = "Sistema de Carga [v: 1.41]";
+	public static final String TITLE_APPLICATION_NAME = "Sistema de Carga [v: 1.50]";
 	
 	/**
 	 * Título da tela de configuração de conexão.
@@ -65,9 +66,11 @@ public class ResourceLocation {
 	public static final String RESOURCES_PATH = "resources/";
 
 	/**
-  * Define o Look and Feel padrão da aplicação
+     * Define o Look and Feel padrão da aplicação
 	 */
 	public static final String LNF = "com.jgoodies.looks.plastic.PlasticXPLookAndFeel";
+//	public static final String LNF = "com.jgoodies.looks.windows.WindowsLookAndFeel";
+//	public static final String LNF = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
 	
 	/**
 	 * Define o nome do arquivo XML utilizado para configuração do dispositivo de log da aplicação.
@@ -77,7 +80,7 @@ public class ResourceLocation {
 	/**
 	 * Define o diretório onde estão os jar dos componentes de carga
 	 */
-	public static final String JAR_FILE_DIRECTORY = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, "resources.file.jar_file"));
+	public static final String JAR_FILE_DIRECTORY = new String(ResourceUtil.getInstance().getProperty("resources.file.jar_file"));
 	
 	/**
 	 * Define a chave que identifica a localidade do arquivo TNSNAMES.ORA
@@ -161,62 +164,62 @@ public class ResourceLocation {
 	/**
 	 * Define o driver do banco de dados de origem
 	 */
-	public static String DATABASE_DRIVER_ORIGEM = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, KEY_DRIVER_ORIGEM));
+	public static String DATABASE_DRIVER_ORIGEM = new String(ResourceUtil.getInstance().getProperty(KEY_DRIVER_ORIGEM));
 	
 	/**
 	 * Define o driver do banco de dados de destino
 	 */
-	public static String DATABASE_DRIVER_DESTINO = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, KEY_DRIVER_DESTINO));
+	public static String DATABASE_DRIVER_DESTINO = new String(ResourceUtil.getInstance().getProperty(KEY_DRIVER_DESTINO));
 	
 	/**
 	 * Define o usuário do banco de dados de origem
 	 */
-	public static String DATABASE_USER_ORIGEM = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, KEY_USER_ORIGEM));
+	public static String DATABASE_USER_ORIGEM = new String(ResourceUtil.getInstance().getProperty(KEY_USER_ORIGEM));
 	
 	/**
 	 * Define o driver do banco de dados de destino
 	 */
-	public static String DATABASE_USER_DESTINO = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, KEY_USER_DESTINO));
+	public static String DATABASE_USER_DESTINO = new String(ResourceUtil.getInstance().getProperty(KEY_USER_DESTINO));
 	
 	/**
 	 * Define a senha do usuário do banco de dados de origem
 	 */
-	public static String DATABASE_PASS_ORIGEM = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, KEY_PASS_ORIGEM));
+	public static String DATABASE_PASS_ORIGEM = new String(ResourceUtil.getInstance().getProperty(KEY_PASS_ORIGEM));
 	
 	/**
 	 * Define a senha do usuário do banco de dados de destino
 	 */
-	public static String DATABASE_PASS_DESTINO = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, KEY_PASS_DESTINO));
+	public static String DATABASE_PASS_DESTINO = new String(ResourceUtil.getInstance().getProperty(KEY_PASS_DESTINO));
 	
 	/**
 	 * Define o caminho do banco de dados de origem
 	 */
-	public static String DATABASE_URL_ORIGEM = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, KEY_URL_ORIGEM));
+	public static String DATABASE_URL_ORIGEM = new String(ResourceUtil.getInstance().getProperty(KEY_URL_ORIGEM));
 
 	/**
 	 * Define o caminho do banco de dados de origem
 	 */
-	public static String DATABASE_URL_DESTINO = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, KEY_URL_DESTINO));
+	public static String DATABASE_URL_DESTINO = new String(ResourceUtil.getInstance().getProperty(KEY_URL_DESTINO));
 	
 	/**
 	 * Define o número máximo de conexões permitidas
 	 */
-	public static int DATABASE_MAX_CONNECTIONS = Integer.parseInt(ResourceUtil.getInstance().getProperty(ResourceLocation.CONF_PROPERTIES, "resources.database.config.maxpoolsize").trim());
+	public static int DATABASE_MAX_CONNECTIONS = Integer.parseInt(ResourceUtil.getInstance().getProperty("resources.database.config.maxpoolsize").trim());
 	
 	/**
 	 * Define o número inicial de conexões
 	 */
-	public static int DATABASE_INI_CONNECTIONS = Integer.parseInt(ResourceUtil.getInstance().getProperty(ResourceLocation.CONF_PROPERTIES, "resources.database.config.poolsize").trim());
+	public static int DATABASE_INI_CONNECTIONS = Integer.parseInt(ResourceUtil.getInstance().getProperty("resources.database.config.poolsize").trim());
 	
 	/**
 	 * Define a localidade do arquivo TNS_NAMES
 	 */
-	public static String DATABASE_TNSNAMES_DATABASE_PATH = new String(ResourceUtil.getInstance().getProperty(ResourceLocation.CONF_PROPERTIES, KEY_TNSNAMES_DATABASE_PATH));
+	public static String DATABASE_TNSNAMES_DATABASE_PATH = new String(ResourceUtil.getInstance().getProperty(KEY_TNSNAMES_DATABASE_PATH));
 	
 	/**
 	 * Define o inicio do pacote de um componente de carga
 	 */
-	public static final String PKG_NAME = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, PKG_CONF_KEY));
+	public static final String PKG_NAME = new String(ResourceUtil.getInstance().getProperty(PKG_CONF_KEY));
 	
 	/**
 	 * Define a chave do ponto de commit que a aplicacao deve seguir.
@@ -226,5 +229,5 @@ public class ResourceLocation {
 	/**
 	 * Define o valor do ponto de commit da aplicacao.
 	 */
-	public static String DATABASE_COMMIT_POINT = new String(ResourceUtil.getInstance().getProperty(CONF_PROPERTIES, CONF_DATABASE_COMMIT_POINT));
+	public static String DATABASE_COMMIT_POINT = new String(ResourceUtil.getInstance().getProperty(CONF_DATABASE_COMMIT_POINT));
 }
