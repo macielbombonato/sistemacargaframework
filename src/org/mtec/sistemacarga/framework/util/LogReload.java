@@ -53,7 +53,7 @@ class LogReload extends Thread {
 	    } while(true);
 	}
 	
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	private void configureLog4j() {
 	    try {
 	        Properties parametros = loadParametros();
@@ -103,9 +103,9 @@ class LogReload extends Thread {
 	    if(parametros == null) {
 			Log.info("CARREGANDO O ARQUIVO DE PROPRIEDADE");
 			parametros = new Properties();
-			parametros.setProperty("log.refreshTime", ResourceUtil.getInstance().getProperty(ResourceLocation.CONF_PROPERTIES, "log.refreshTime"));
-			parametros.setProperty("log.fileAppender.path", ResourceUtil.getInstance().getProperty(ResourceLocation.CONF_PROPERTIES, "log.fileAppender.path"));
-			parametros.setProperty("log.xmlAppender.path", ResourceUtil.getInstance().getProperty(ResourceLocation.CONF_PROPERTIES, "log.xmlAppender.path"));
+			parametros.setProperty("log.refreshTime", ResourceUtil.getInstance().getProperty("log.refreshTime"));
+			parametros.setProperty("log.fileAppender.path", ResourceUtil.getInstance().getProperty("log.fileAppender.path"));
+			parametros.setProperty("log.xmlAppender.path", ResourceUtil.getInstance().getProperty("log.xmlAppender.path"));
 			
 		}
 	    return parametros;
@@ -125,6 +125,7 @@ class LogReload extends Thread {
 	    }
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Object invokeMethod(Object o, String methodName, Class paramClasses[], Object params[]) throws Exception {
 	    Method method = o.getClass().getMethod(methodName, paramClasses);
 	    return method.invoke(o, params);
