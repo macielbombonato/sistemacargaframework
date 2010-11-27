@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import org.mtec.sistemacarga.framework.annotations.Cursor;
 import org.mtec.sistemacarga.framework.annotations.DBProcess;
 import org.mtec.sistemacarga.framework.annotations.Property;
+import org.mtec.sistemacarga.framework.util.Log;
 
 
 
@@ -24,13 +25,15 @@ class AnnotationProcessor {
 	 * @return PanelMetaData
 	 */
 	@SuppressWarnings("unchecked")
-	public PanelMetaData processAnnotations(Class clazz) {
+	public PanelMetaData processAnnotations(Object obj) {
+		Class<?> clazz = obj.getClass();
 		PanelMetaData metadata = new PanelMetaData();
 		DBProcess dbProc = (DBProcess)clazz.getAnnotation(DBProcess.class);
 		String name = dbProc.value();
 		metadata.setName(name);
 		Field[] declaredFields = clazz.getDeclaredFields();
 		for(Field field : declaredFields) {
+			field.setAccessible(true);
 			Property propAnnotation = field.getAnnotation(Property.class);
 			InputFieldMetaData input = new InputFieldMetaData();
 			if(propAnnotation != null) {
@@ -39,6 +42,15 @@ class AnnotationProcessor {
 				input.setType(UIElementType.INPUT);
 				input.setTip(propAnnotation.message());
 				input.setElementType(field.getType());
+				try {
+					input.setElementValue(field.get(obj)+"");
+				} catch (IllegalArgumentException e) {
+					Log.warn("Nao foi possivel recuperar o valor default do campo.");
+					Log.warn(e);
+				} catch (IllegalAccessException e) {
+					Log.warn("Nao foi possivel recuperar o valor default do campo.");
+					Log.warn(e);
+				}
 			} else {
 				Cursor cursorAnnotation = field.getAnnotation(Cursor.class);
 				if(cursorAnnotation != null) {
