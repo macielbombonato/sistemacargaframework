@@ -22,6 +22,7 @@ import oracle.jdbc.driver.OracleCallableStatement;
  * @author Maciel Escudero Bombonato - maciel.bombonato@gmail.com
  * @version 1.0 - 03/01/2007
  */
+@SuppressWarnings("unchecked")
 public class ExecuteStoredProcedure implements Serializable {
 
 	/**
