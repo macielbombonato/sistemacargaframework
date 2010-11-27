@@ -189,7 +189,7 @@ public final class Log {
 		System.out.println(hostName + " - " + cmn + " - " + getStackTrace(e));
 	}
 	// error String //
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	public static void error(String s, Class clazz) {
 		Category cat = Category.getInstance(clazz);
 		cat.error((new StringBuffer(hostName)).append(" - ").append(s));
@@ -209,7 +209,7 @@ public final class Log {
 		System.out.println(hostName + " - " + cmn + " - " + getStackTrace(e));
 	}
 	// Warn //
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	public static void warn(String s, Class clazz) {
 		Category cat = Category.getInstance(clazz);
 		cat.warn((new StringBuffer(hostName)).append(" - ").append(s));
