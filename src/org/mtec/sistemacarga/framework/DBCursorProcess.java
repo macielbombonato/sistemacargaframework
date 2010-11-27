@@ -18,6 +18,7 @@ import org.mtec.sistemacarga.framework.exception.SisCarException;
  * @version 1.0 - 25/04/2007
  * @version 1.1 - 18/10/2007
  */
+@SuppressWarnings("unchecked")
 public final class DBCursorProcess implements CursorInterface {
 	
 	/**

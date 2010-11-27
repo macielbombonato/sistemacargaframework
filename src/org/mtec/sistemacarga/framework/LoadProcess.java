@@ -9,6 +9,7 @@ import java.util.List;
  * @author MAciel Escudero Bombonato - maciel.bombonato@gmail.com
  * @version 1.0 - 15/05/2007
  */
+@SuppressWarnings("unchecked")
 public interface LoadProcess {
 
 	/**

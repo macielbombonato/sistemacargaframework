@@ -9,6 +9,7 @@ import java.util.List;
  * @author Maciel Escudero Bombonato - maciel.bombonato@gmail.com
  * @version 1.0 - 25/04/2007
  */
+@SuppressWarnings("unchecked")
 final class SQLStatamentBuilder {
 
 	/**
@@ -39,11 +40,13 @@ final class SQLStatamentBuilder {
 		}
 		if(parameters != null && ! parameters.isEmpty()) {
 			size += parameters.size();
+
+			for(int i = 0; i < size - 1; i++) {
+				buf.append(parameter).append(parameterSeparator);
+			}
+			buf.append(parameter);
 		}
-		for(int i = 0; i < size - 1; i++) {
-			buf.append(parameter).append(parameterSeparator);
-		}
-		buf.append(parameter);
+
 		
 		String stmt = "{"+callStatement + " " + storedProcedureName  + openParentesis + buf.toString() + closeParentesis+"}";
 		
