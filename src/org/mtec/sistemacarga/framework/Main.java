@@ -1,13 +1,6 @@
 package org.mtec.sistemacarga.framework;
 
-import java.util.Set;
-
-import javax.swing.JPanel;
-
-import org.mtec.sistemacarga.framework.gui.builder.ApplicationWindow;
-import org.mtec.sistemacarga.framework.gui.builder.PanelBuilder;
-
-
+import org.mtec.sistemacarga.framework.service.AplicacaoCargaService;
 
 /**
  * Classe Main da aplicação.
@@ -21,17 +14,16 @@ public class Main {
 
 	/**
 	 * Método Main da aplicação
-	 * @param args String[] -> Não tratado nesta aplicação
+	 * @param args String[] -> utilizados para aplicacao batch
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		Set<String> p = PanelBuilder.getAllAvailablePanels();
-		ApplicationWindow f = new ApplicationWindow();
-		for (String name : p) {
-			JPanel panel = PanelBuilder.getPanelByName(name);
-			f.addTab(name, panel);
+		AplicacaoCargaService appCarga = new AplicacaoCargaService();
+		
+		if (args == null || args.length == 0) {
+			appCarga.executaAplicacaoVisual();
+		} else {
+			appCarga.executaAplicacaoBatch(args);
 		}
-		f.setVisible(true);
 	}
-
 }
