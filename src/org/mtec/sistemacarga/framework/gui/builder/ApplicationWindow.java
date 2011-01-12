@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,8 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
-
-import javax.swing.ImageIcon;
 
 import org.mtec.sistemacarga.framework.dao.ConnectionPoolManagerDestino;
 import org.mtec.sistemacarga.framework.dao.ConnectionPoolManagerOrigem;
@@ -159,7 +158,6 @@ public class ApplicationWindow extends JFrame {
 	
 	public ApplicationWindow() {
 		super();
-		PanelBuilder.applyLookAndFeel();
 		initialize();
 	}
 
