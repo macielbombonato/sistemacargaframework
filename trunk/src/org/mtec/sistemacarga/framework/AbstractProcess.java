@@ -13,7 +13,7 @@ import org.mtec.sistemacarga.framework.util.Log;
  * @version 1.0 - 05/02/2007
  */
 @SuppressWarnings("unchecked")
-abstract class AbstractProcess implements Runnable {
+public abstract class AbstractProcess implements Runnable {
 	
 	/**
 	 * Lista de parâmetros que deve ser enviada a package de carga do banco
