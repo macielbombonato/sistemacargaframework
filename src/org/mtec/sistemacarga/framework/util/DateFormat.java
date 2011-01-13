@@ -1,8 +1,11 @@
 package org.mtec.sistemacarga.framework.util;
 
+import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 /**
@@ -14,7 +17,9 @@ public class DateFormat {
 	/**
 	 * SimpleDateFormat
 	 */
-	private static SimpleDateFormat sdf;
+	private static SimpleDateFormat sdfDefault;
+	
+	private static SimpleDateFormat sdfCustom;
 	
 	/**
 	 * Instancia do objeto
@@ -26,7 +31,7 @@ public class DateFormat {
 	 * Construtor da classe
 	 */
 	private DateFormat() {
-		sdf = new SimpleDateFormat("dd/MM/yyyy");
+		sdfDefault = new SimpleDateFormat("dd/MM/yyyy");
 	}
 	
 	/**
@@ -44,7 +49,7 @@ public class DateFormat {
 	 */
 	public String formatDate(java.util.Date data) {
 		if (data != null) {
-			return sdf.format(data);
+			return sdfDefault.format(data);
 		}
 		return "";
 	}
@@ -56,7 +61,7 @@ public class DateFormat {
 	 */
 	public String formatDate(java.sql.Date data) {
 		if (data != null) {
-			return sdf.format( new java.util.Date(data.getTime()) );
+			return sdfDefault.format( new java.util.Date(data.getTime()) );
 		}
 		return "";
 	}
@@ -69,12 +74,97 @@ public class DateFormat {
 	public java.util.Date parseDate(String data) {
 		java.util.Date dataConvertida = null;
 		try {
-			dataConvertida = sdf.parse( data );
+			dataConvertida = sdfDefault.parse( data );
 		} catch (ParseException e) {
 			Log.info("Ocorreu um erro ao converter a data [" + data + "]");
 			dataConvertida = null;
 		}
 		return dataConvertida;
+	}
+	
+	public java.util.Date parseDate(String data, String pattern) {
+		java.util.Date dataConvertida = null;
+		try {
+			sdfCustom = new SimpleDateFormat(pattern);
+			
+			dataConvertida = sdfCustom.parse( data );
+		} catch (ParseException e) {
+			Log.info("Ocorreu um erro ao converter a data [" + data + "]");
+			dataConvertida = null;
+		}
+		return dataConvertida;
+	}
+	
+	/**
+	 * Converte um campo String contendo uma data para java.util.Date
+	 * @param data String com a data para conversão
+	 * @return java.util.Date
+	 */
+	public java.sql.Timestamp parseTimestamp(String data) {
+		java.util.Date dataConvertida = null;
+		java.sql.Timestamp dataRetorno = null;
+		try {
+			dataConvertida = sdfDefault.parse( data );
+			dataRetorno = new Timestamp(dataConvertida.getTime());
+		} catch (ParseException e) {
+			Log.info("Ocorreu um erro ao converter a data [" + data + "]");
+			dataConvertida = null;
+		}
+		return dataRetorno;
+	}
+	
+	public java.sql.Timestamp parseTimestamp(String data, String pattern) {
+		java.util.Date dataConvertida = null;
+		java.sql.Timestamp dataRetorno = null;
+		try {
+			sdfCustom = new SimpleDateFormat(pattern);
+			dataConvertida = sdfCustom.parse( data );
+			dataRetorno = new Timestamp(dataConvertida.getTime());
+		} catch (ParseException e) {
+			Log.info("Ocorreu um erro ao converter a data [" + data + "]");
+			dataConvertida = null;
+		}
+		return dataRetorno;
+	}
+	
+	/**
+	 * Converte um campo String contendo uma data para java.util.Date
+	 * @param data String com a data para conversão
+	 * @return java.util.Date
+	 */
+	public java.sql.Timestamp parseTimestamp(String data, int gmt) {
+		java.util.Date dataConvertida = null;
+		java.sql.Timestamp dataRetorno = null;
+		try {
+			dataConvertida = sdfDefault.parse( data );
+			Calendar cal = GregorianCalendar.getInstance();
+			cal.setTime(dataConvertida);
+			cal.add(Calendar.HOUR, gmt);
+			cal.set(Calendar.SECOND, 1);
+			dataRetorno = new Timestamp(cal.getTime().getTime());
+		} catch (ParseException e) {
+			Log.info("Ocorreu um erro ao converter a data [" + data + "]");
+			dataConvertida = null;
+		}
+		return dataRetorno;
+	}
+	
+	public java.sql.Timestamp parseTimestamp(String data, int gmt, String pattern) {
+		java.util.Date dataConvertida = null;
+		java.sql.Timestamp dataRetorno = null;
+		try {
+			sdfCustom = new SimpleDateFormat(pattern);
+			dataConvertida = sdfCustom.parse( data );
+			Calendar cal = GregorianCalendar.getInstance();
+			cal.setTime(dataConvertida);
+			cal.add(Calendar.HOUR, gmt);
+			cal.set(Calendar.SECOND, 1);
+			dataRetorno = new Timestamp(cal.getTime().getTime());
+		} catch (ParseException e) {
+			Log.info("Ocorreu um erro ao converter a data [" + data + "]");
+			dataConvertida = null;
+		}
+		return dataRetorno;
 	}
 	
 	/**
@@ -111,10 +201,10 @@ public class DateFormat {
 	 * @return String representando uma data no seguinte padrão de formatação: dd/MM/yyyy - HH:mm:ss
 	 */
 	public String getDataHoraAtual() {
-		sdf.applyPattern("dd/MM/yyyy - HH:mm:ss");
-		sdf.setTimeZone(TimeZone.getDefault());
-		String dataHora = sdf.format( new java.util.Date() );
-		sdf.applyPattern("dd/MM/yyyy");
+		sdfDefault.applyPattern("dd/MM/yyyy - HH:mm:ss");
+		sdfDefault.setTimeZone(TimeZone.getDefault());
+		String dataHora = sdfDefault.format( new java.util.Date() );
+		sdfDefault.applyPattern("dd/MM/yyyy");
 		return dataHora;
 	}
 	
