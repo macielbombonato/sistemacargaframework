@@ -1,28 +1,20 @@
 package org.mtec.sistemacarga.framework.gui.builder;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.UIManager;
 
-import org.mtec.sistemacarga.framework.annotations.DBProcess;
+import org.mtec.sistemacarga.framework.service.ClassService;
 import org.mtec.sistemacarga.framework.sorts.KeysComparator;
 import org.mtec.sistemacarga.framework.util.Log;
-import org.mtec.sistemacarga.framework.util.ResourceLocation;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -52,63 +44,27 @@ public class PanelBuilder {
 	 * na tela principal da aplicação.
 	 */
 	static {
-		try {
-			applyLookAndFeel();
-			List<Class> classes = filterClasses(loadAllClasses());
-			AnnotationProcessor processor = new AnnotationProcessor();
-			Object obj = null;
-			for (Class c : classes) {
-				PanelMetaData metadata = null;
-				try {
-					obj = c.newInstance();
-					metadata = processor.processAnnotations(obj);
-					obj = null;
-				} catch (InstantiationException e) {
-					Log.error("Erro durante a conversao e criacao da classe anotada.");
-					Log.error(e);
-				} catch (IllegalAccessException e) {
-					Log.error("Erro durante a conversao e criacao da classe anotada.");
-					Log.error(e);
-				}
-				Tuple<JPanel, JPanel> tuple = buildPanel(metadata);				
-				PanelPrototype prototype = new PanelPrototype(tuple.getFirstObject(), tuple.getSecondObject(), c);
-				panelTable.put(metadata.getName(), prototype);
+		ClassService classService = new ClassService();
+		List<Class> classes = classService.getDBProcessClassList();
+		AnnotationProcessor processor = new AnnotationProcessor();
+		Object obj = null;
+		PanelMetaData metadata = null;
+		for (Class c : classes) {
+			metadata = null;
+			try {
+				obj = c.newInstance();
+				metadata = processor.processAnnotations(obj);
+				obj = null;
+			} catch (InstantiationException e) {
+				Log.error("Erro durante a conversao e criacao da classe anotada.");
+				Log.error(e);
+			} catch (IllegalAccessException e) {
+				Log.error("Erro durante a conversao e criacao da classe anotada.");
+				Log.error(e);
 			}
-		} catch (ClassNotFoundException e) {
-			throw new ExceptionInInitializerError(e);
-		}
-	}
-	
-	/**
-	 * Método que verifica a versão da VM do usuário e tenta aplicar 
-	 * o Look and Feel padrão escolhido para a aplicação.
-	 */
-	static void applyLookAndFeel() {
-		//
-		String javaVersion = System.getProperty("java.version");		
-		String laf = null;
-		//
-		if(javaVersion.startsWith("1.5")) {
-			laf = ResourceLocation.LNF;
-		} else if(javaVersion.startsWith("1.3")) {
-			JOptionPane.showMessageDialog(null, 
-					"Você está utilizando a versão 1.3 do java \n" +
-					"Esta aplicação necessita da versão 1.5 ou superior" +
-					"do java para poder ser executada.");
-		} else if(javaVersion.startsWith("1.4")) {
-			JOptionPane.showMessageDialog(null, 
-					"Você está utilizando a versão 1.4 do java \n" +
-					"Esta aplicação necessita da versão 1.5 ou superior" +
-					"do java para poder ser executada.");
-		} else {
-			laf = ResourceLocation.LNF;
-		}
-		
-		try {
-			UIManager.setLookAndFeel(laf);
-		} catch (Exception e) {
-			Log.error("Não foi possível aplicar o Look and Feel padrão da aplicação, " +
-					"Será aplicado o Look and Feel padrão do Java (Metal).");
+			Tuple<JPanel, JPanel> tuple = buildPanel(metadata);				
+			PanelPrototype prototype = new PanelPrototype(tuple.getFirstObject(), tuple.getSecondObject(), c);
+			panelTable.put(metadata.getName(), prototype);
 		}
 	}
 	
@@ -132,8 +88,8 @@ public class PanelBuilder {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Tuple<InputFieldMetaData[], InputFieldMetaData[]> disjoint(
-			Set<InputFieldMetaData> components) {
+	private static Tuple<InputFieldMetaData[], InputFieldMetaData[]> disjoint(Set<InputFieldMetaData> components) {
+		
 		List<InputFieldMetaData> formObjs = new ArrayList<InputFieldMetaData>();
 		List<InputFieldMetaData> reportObjs = new ArrayList<InputFieldMetaData>();
 		// insere componentes em um map ordenado
@@ -238,67 +194,5 @@ public class PanelBuilder {
 		rows += "pref";
 		return rows;
 	}
-
-	@SuppressWarnings("unchecked")
-	static private List<Class> filterClasses(List<Class> classes) {
-		int size = classes.size();
-		for (int i = size - 1; i >= 0; i--) {
-			Class c = classes.get(i);
-			boolean annotationPresent = c.isAnnotationPresent(DBProcess.class);
-			if(!annotationPresent) {
-				classes.remove(c);
-			}
-		}
-		return classes;
-	}
-
-	static private List<Class> loadAllClasses() throws ClassNotFoundException {
-		List<Class> classes = new ArrayList<Class>();
-		File f = new File(ResourceLocation.JAR_FILE_DIRECTORY);
-		if (f.exists() && f.isDirectory()) {
-			String[] files = f.list();
-			for (String jarFile : files) {
-				if(jarFile.endsWith(".jar")) {
-					getClassesFromJar(classes, f.getAbsolutePath()+File.separatorChar+jarFile);
-				}
-			}
-		} else if (f.exists() && f.isFile()) {
-			if(f.getName().endsWith(".jar")) {
-				getClassesFromJar(classes, f.getAbsolutePath());
-			}
-		}
-		return classes;
-	}
-
-	private static void getClassesFromJar(List<Class> classes, String jarFile) throws ClassNotFoundException {
-		try {
-			JarFile jar = new JarFile(jarFile);
-			Enumeration<JarEntry> entries = jar.entries();
-			while (entries.hasMoreElements()) {
-				JarEntry elem = entries.nextElement();
-				String name = elem.getName();
-				if (name.startsWith(ResourceLocation.PKG_NAME) && name.endsWith(".class")) {
-					String tmp = "";
-					try {
-						tmp = name.replace('/', '.');
-						tmp = tmp.substring(0, tmp.length() - 6);
-						Class<?> clazz = Class.forName(tmp);
-						classes.add(clazz);
-					} catch (Exception e) {
-						Log.error("Erro ao tentar carregar o componente " + tmp + ", verifique se o JAR que está no diretório LIB foi mencionado no classPath do executável da aplicação.");
-						Log.error(e);
-					}
-				}
-			}
-		} catch (IOException e) {
-			Log.error("Erro ao tentar abrir o arquivo jar de componente de carga.");
-			Log.error(e);
-		} catch (Exception ex) {
-			Log.error("Erro fatal ao tentar processar o componente de carga, verifique o classPath da aplicação.");
-			Log.error(ex);
-		}
-	}
-
-	
 
 }
