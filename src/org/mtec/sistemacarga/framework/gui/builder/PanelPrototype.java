@@ -55,10 +55,10 @@ import com.jgoodies.forms.layout.FormLayout;
 @SuppressWarnings("serial")
 class PanelPrototype<T> extends JPanel {
 
-	private JPanel jPanel = null;
-	private JPanel jPanel1 = null;
-	private JScrollPane jScrollPane = null;
-	private JScrollPane jScrollPane1 = null;
+	private JPanel formPanel = null;
+	private JPanel progressPanel = null;
+	private JScrollPane scrollProgressPanel = null;
+	private JScrollPane scrollFieldsPanel = null;
 	private JPanel controlPanel = null;
 	private JButton runButton = null;
 	private JLabel startProcessTitleLabel = null;
@@ -67,8 +67,8 @@ class PanelPrototype<T> extends JPanel {
 	private JLabel endProcessLabel = null;
 	private JLabel elapsedTimeTitleLabel = null;
 	private JLabel elapsedTimeLabel = null;
-	private JPanel jPanel2 = null;
-	private JPanel jPanel3 = null;
+	private JPanel internalFormPanel = null;
+	private JPanel fieldsPanel = null;
 	private JPanel form = null;
 	private JPanel reportPanel = null;
 	private JLabel processingIconLabel = null;
@@ -283,44 +283,44 @@ class PanelPrototype<T> extends JPanel {
 	private void initialize() {
 		this.setSize(1051, 483);
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		this.add(getJPanel(), null);
-		this.add(getJPanel1(), null);
+		this.add(getFormPanel(), null);
+		this.add(getProgressPanel(), null);
 	}
 
-	private JPanel getJPanel() {
-		if (jPanel == null) {
-			jPanel = new JPanel();
-			jPanel.setLayout(new BorderLayout());
-			jPanel.setBackground(new Color(212, 208, 200));
-			jPanel.add(getJPanel2(), BorderLayout.CENTER);
+	private JPanel getFormPanel() {
+		if (formPanel == null) {
+			formPanel = new JPanel();
+			formPanel.setLayout(new BorderLayout());
+			formPanel.setBackground(new Color(212, 208, 200));
+			formPanel.add(getInternalFormPanel(), BorderLayout.CENTER);
 		}
-		return jPanel;
+		return formPanel;
 	}
 
-	private JPanel getJPanel1() {
-		if (jPanel1 == null) {
-			jPanel1 = new JPanel();
-			jPanel1.setLayout(new BorderLayout());
-			jPanel1.add(getJScrollPane(), BorderLayout.CENTER);
+	private JPanel getProgressPanel() {
+		if (progressPanel == null) {
+			progressPanel = new JPanel();
+			progressPanel.setLayout(new BorderLayout());
+			progressPanel.add(getScrollProgressPanel(), BorderLayout.CENTER);
 		}
-		return jPanel1;
+		return progressPanel;
 	}
 
-	private JScrollPane getJScrollPane() {
-		if (jScrollPane == null) {
-			jScrollPane = new JScrollPane();
-			jScrollPane.setViewportView(getReportPanel());
+	private JScrollPane getScrollProgressPanel() {
+		if (scrollProgressPanel == null) {
+			scrollProgressPanel = new JScrollPane();
+			scrollProgressPanel.setViewportView(getReportPanel());
 		}
-		return jScrollPane;
+		return scrollProgressPanel;
 	}
 
-	private JScrollPane getJScrollPane1() {
-		if (jScrollPane1 == null) {
-			jScrollPane1 = new JScrollPane();
-			jScrollPane1.setPreferredSize(new Dimension(21, 21));
-			jScrollPane1.setViewportView(getForm());
+	private JScrollPane getScrollFieldsPanel() {
+		if (scrollFieldsPanel == null) {
+			scrollFieldsPanel = new JScrollPane();
+			scrollFieldsPanel.setPreferredSize(new Dimension(21, 21));
+			scrollFieldsPanel.setViewportView(getForm());
 		}
-		return jScrollPane1;
+		return scrollFieldsPanel;
 	}
 	
 	private JPanel getForm() {
@@ -335,7 +335,7 @@ class PanelPrototype<T> extends JPanel {
 		return reportPanel;
 	}
 	
-	void setReportPanel(JPanel p) {
+	private void setReportPanel(JPanel p) {
 		this.reportPanel = p;
 		reportPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 	}
@@ -356,13 +356,11 @@ class PanelPrototype<T> extends JPanel {
 			startProcessLabel.setText("");
 			startProcessTitleLabel = new JLabel();
 			startProcessTitleLabel.setText("Início do Processo:");
-			//
 			startProcessTitleLabel.setVisible(false);
 			FormLayout layout = new FormLayout("pref, 4dlu, 80dlu", // columns
 					                           "pref, 2dlu, pref, 2dlu, pref, 2dlu, pref"); // rows
 			layout.setRowGroups(new int[][] { { 1, 3, 5 , 7} });
 			
-			//
 			controlPanel = new JPanel(layout);
 			controlPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 			CellConstraints cc = new CellConstraints();
@@ -755,24 +753,24 @@ class PanelPrototype<T> extends JPanel {
 		return c;
 	}
 
-	private JPanel getJPanel2() {
-		if (jPanel2 == null) {
-			jPanel2 = new JPanel();
-			jPanel2.setLayout(new BorderLayout());
-			jPanel2.add(getJPanel3(), BorderLayout.CENTER);
-			jPanel2.add(getControlPanel(), BorderLayout.SOUTH);
+	private JPanel getInternalFormPanel() {
+		if (internalFormPanel == null) {
+			internalFormPanel = new JPanel();
+			internalFormPanel.setLayout(new BorderLayout());
+			internalFormPanel.add(getFieldsPanel(), BorderLayout.CENTER);
+			internalFormPanel.add(getControlPanel(), BorderLayout.SOUTH);
 		}
-		return jPanel2;
+		return internalFormPanel;
 	}
 
-	private JPanel getJPanel3() {
-		if (jPanel3 == null) {
-			jPanel3 = new JPanel();
-			jPanel3.setLayout(new BorderLayout());
-			jPanel3.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
-			jPanel3.add(getJScrollPane1(), BorderLayout.CENTER);
+	private JPanel getFieldsPanel() {
+		if (fieldsPanel == null) {
+			fieldsPanel = new JPanel();
+			fieldsPanel.setLayout(new BorderLayout());
+			fieldsPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+			fieldsPanel.add(getScrollFieldsPanel(), BorderLayout.CENTER);
 		}
-		return jPanel3;
+		return fieldsPanel;
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="36,14"
+}
