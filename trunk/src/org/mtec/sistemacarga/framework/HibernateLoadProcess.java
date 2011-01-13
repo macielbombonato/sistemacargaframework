@@ -12,6 +12,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.mtec.sistemacarga.framework.dao.ConnectionPoolManagerDestino;
 import org.mtec.sistemacarga.framework.dao.ConnectionPoolManagerOrigem;
+import org.mtec.sistemacarga.framework.dao.HibernateConcurrentExecution;
 import org.mtec.sistemacarga.framework.util.Log;
 import org.mtec.sistemacarga.framework.util.ResourceLocation;
 
@@ -56,15 +57,15 @@ public class HibernateLoadProcess {
 	private AnnotationConfiguration destinyConfig;
 	
 	/**
-	 * Contador para segmentar as ações de commit e com isso tentar ganhar desempenho no processo de carga.
-	 */
-	private int commitCount = 0;
-	
-	/**
 	 * Valor definido no arquivo de configuracao para o ponto de commit que a aplicacao deve
 	 * seguir.
 	 */
 	private int commitPoint = Integer.parseInt(ResourceLocation.DATABASE_COMMIT_POINT);
+	
+	/**
+	 * Pool de threads da aplicação
+	 */
+	public static Thread[] t = new Thread[10];
 	
 	/**
 	 * Construtor da classe.
@@ -246,28 +247,73 @@ public class HibernateLoadProcess {
 		return list;
 	}
 	
+	public Object getIdentifier(Object obj) {
+		return sourceSession.getIdentifier(obj);
+	}
+	
+	public void refresh(Object obj) {
+		sourceSession.refresh(obj);
+	}
+	
 	/**
 	 * Método responsável por persistir o objeto no banco de destino inserindo ou atualizando.
 	 * @param obj - Objeto anotado que deverá ser inserido ou atualizado.
 	 */
 	public void saveData(Object obj) {
+		HibernateConcurrentExecution process = new HibernateConcurrentExecution(null, obj, destinySession); 
 		try {
-			//
-			// Salva ou atualiza dados no banco de destino
-			destinySession.saveOrUpdate(obj);
-			//
-			// Incrementa contador
-			commitCount++;
-			// Commita transação;
-			if (commitCount >= commitPoint) {
-				destinySession.flush();
-				commitCount = 0;
-				System.gc();
+			int i = 0;
+			while(true) {
+				try {
+					if (i >= (t.length)) {
+						i = 0;
+						Thread.sleep(10);
+					} else if (t[i] == null) {
+						t[i] = new Thread(process);
+						//
+						t[i].start();
+						i++;
+						break;
+					} else if (!threadAtiva(t[i])) {
+						t[i] = null;
+						t[i] = new Thread(process);
+						t[i].start();
+						i++;
+						break;
+					} else {
+						i++;
+					}
+				} catch (Throwable e) {
+					Log.error("Erro ao criar a thread.");
+					Log.error(e);
+					t[i] = null;
+				}
 			}
-			//
-		} catch (HibernateException e) {
-			Log.error("Erro ao tentar salvar o registro.");
+		} catch (Exception e) {
+			Log.error("Erro ao tentar criar a thread " + obj);
 			Log.error(e);
+		}
+
+	}
+	
+	/**
+	 * Bloco sincronizado que informa se a thread está ativa.
+	 * @param thread
+	 * @return
+	 */
+	public static boolean threadAtiva(Thread thread) {
+		if (thread != null) {
+			synchronized (thread) {
+				if (thread != null && !thread.isAlive()) {
+					return false;
+				} else if (thread != null && thread.isAlive()) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		} else {
+			return false;
 		}
 	}
 	
