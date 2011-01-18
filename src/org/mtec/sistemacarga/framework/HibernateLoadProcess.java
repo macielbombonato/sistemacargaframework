@@ -65,7 +65,7 @@ public class HibernateLoadProcess {
 	/**
 	 * Pool de threads da aplicação
 	 */
-	public static Thread[] t = new Thread[10];
+	public static Thread[] t = new Thread[5];
 	
 	/**
 	 * Construtor da classe.
@@ -90,15 +90,16 @@ public class HibernateLoadProcess {
 		sourceConfig.setProperty("hibernate.connection.url", ResourceLocation.DATABASE_URL_ORIGEM);
 		sourceConfig.setProperty("hibernate.connection.pool_size", ResourceLocation.DATABASE_MAX_CONNECTIONS+"");
 		sourceConfig.setProperty("hibernate.query.substitutions", "true 1, false 0, yes 'Y', no 'N'");
-		sourceConfig.setProperty("hibernate.format_sql", "true");
-		sourceConfig.setProperty("hibernate.proxool.pool_alias", "pool1");
+		sourceConfig.setProperty("hibernate.format_sql", "false");
+		sourceConfig.setProperty("hibernate.show_sql", "false");
+		sourceConfig.setProperty("hibernate.proxool.pool_alias", "HibernatePool_01");
 		sourceConfig.setProperty("hibernate.order_updates", "true");
-		sourceConfig.setProperty("hibernate.max_fetch_depth", "1");
+		sourceConfig.setProperty("hibernate.max_fetch_depth", "100");
 		sourceConfig.setProperty("hibernate.default_batch_fetch_size", commitPoint+"");
-		sourceConfig.setProperty("hibernate.jdbc.batch_versioned_data", "true");
+		sourceConfig.setProperty("hibernate.jdbc.batch_versioned_data", "false");
 		sourceConfig.setProperty("hibernate.jdbc.use_streams_for_binary", "true");
 		sourceConfig.setProperty("hibernate.cache.region_prefix", "hibernate.test");
-		sourceConfig.setProperty("hibernate.cache.use_query_cache", "true");
+		sourceConfig.setProperty("hibernate.cache.use_query_cache", "false");
 		sourceConfig.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.HashtableCacheProvider");
 		//
 		// instancia annotation configuration do banco de destino
@@ -111,15 +112,16 @@ public class HibernateLoadProcess {
 		destinyConfig.setProperty("hibernate.connection.url", ResourceLocation.DATABASE_URL_DESTINO);
 		destinyConfig.setProperty("hibernate.connection.pool_size", ResourceLocation.DATABASE_MAX_CONNECTIONS+"");
 		destinyConfig.setProperty("hibernate.query.substitutions", "true 1, false 0, yes 'Y', no 'N'");
-		destinyConfig.setProperty("hibernate.format_sql", "true");
-		destinyConfig.setProperty("hibernate.proxool.pool_alias", "pool1");
+		destinyConfig.setProperty("hibernate.format_sql", "false");
+		destinyConfig.setProperty("hibernate.show_sql", "false");
+		destinyConfig.setProperty("hibernate.proxool.pool_alias", "HibernatePool_01");
 		destinyConfig.setProperty("hibernate.order_updates", "true");
-		destinyConfig.setProperty("hibernate.max_fetch_depth", "1");
+		destinyConfig.setProperty("hibernate.max_fetch_depth", "100");
 		destinyConfig.setProperty("hibernate.default_batch_fetch_size", commitPoint+"");
-		destinyConfig.setProperty("hibernate.jdbc.batch_versioned_data", "true");
+		destinyConfig.setProperty("hibernate.jdbc.batch_versioned_data", "false");
 		destinyConfig.setProperty("hibernate.jdbc.use_streams_for_binary", "true");
 		destinyConfig.setProperty("hibernate.cache.region_prefix", "hibernate.test");
-		destinyConfig.setProperty("hibernate.cache.use_query_cache", "true");
+		destinyConfig.setProperty("hibernate.cache.use_query_cache", "false");
 		destinyConfig.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.HashtableCacheProvider");
 		destinyConfig.setProperty("hibernate.connection.autocommit", "true");
 		//
